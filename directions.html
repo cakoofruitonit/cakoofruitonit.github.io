@@ -6,25 +6,26 @@
 <body>
 <style>
   .selectText{
-    margin: auto;
+    
     margin-top: 20px;
-    width: 110%;
+    width: 100%;
     padding:10px;
     text-align: center;
     font-size: 50px;
     font-weight: bold;
+    
   }
   .pressEnter{
-    margin: auto;
-    width: 40%;
+    font-size: 50px;
+    width: 100%;
     padding:15px;
     text-align: center;
   }
   .selectTable{
-    margin: auto;
+    margin:auto;
     margin-top: 20px;
     margin-bottom: 60px;
-    width: 25%;
+    width: 75%;
     height: 310px;
     text-align: center;
     border: black;
@@ -40,22 +41,23 @@
     margin: auto;
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 100%;
+    width: 80%;
     height: 60px;
     text-align: center;
     color:rgb(65,105,225);
     font-size: 20px;
     font-weight: bold;
-    background-color: rgb(228, 253, 253);
+    background-color: rgb(254, 247, 163);
     border-color: blue;
   }
   .directions{
     margin: auto;
-    width: 40%;
+    width: 80%;
     padding:10px;
     text-align: center;
     border:black;
     border-style: outset;
+    font-size: 28px;
   }
   .next{
     margin: auto;
@@ -75,16 +77,16 @@
   }
   .destinationText{
     margin: auto;
-    width: 50%;
-    padding: 17px;
+    width: 70%;
+    padding: 10px;
     text-align: center;
     font-size: 28px;
     color:rgb(65,105,225);
     font-weight:bold;
   }
   .chooseLocation1{
-    margin: auto;
-    width:80%;
+    
+    width:100%;
     margin-bottom: 10px; 
     font-size: 23px; 
     text-align: center;
@@ -92,8 +94,8 @@
     border-style: groove;
   }
   .chooseLocation2{
-    margin: auto;
-    width:80%;
+    
+    width:100%;
     margin-top: 7px;
     margin-bottom: 10px; 
     font-size: 23px; 
@@ -115,9 +117,13 @@
         <option name="stop-3" value="ART-Main">Creative Arts Building (ART)</option>
         <option name="stop-4" value="ARTX-Main">Arts Extension Building (ARTX)</option>
         <option name="stop-5" value="LIBR-Main">Rosenberg Library (LIBR)</option>
-        <option name="stop-6" value="STAM-Main">Rush Stadium</option>
+        <option name="stop-6" value="STAD-Main">Rush Stadium</option>
         <option name="stop-7" value="CLOUD-Main">Cloud Hall</option>
         <option name="stop-8" value="HLTH-Main">Student Health Center</option>
+        <option name="stop-9" value="BATL-Main">Batmale Hall</option>
+        <option name="stop-10" value="WELL-Main">Wellness Center</option>
+        <option name="stop-11" value="EHF-Main">Floristy Center</option>
+        <option name="stop-12" value="CAFE-Main">Cafeteria</option>
         <option value="SCI-150">⭐⭐⭐Science Building Room 150⭐⭐⭐</option>
       </select>
     </p2>
@@ -126,7 +132,7 @@
   <p3>
     <div3>
       <p2 style="margin-top: 10px"class="destinationText">
-        Destination:   
+        <br>Destination:   
       </p2>
       <select class = "chooseLocation2"id="choose-location2" name="list-of-locations2">
         <option name="stop-1" value="SCI-Main">Science Building</option>
@@ -134,15 +140,19 @@
         <option name="stop-3" value="ART-Main">Creative Arts Building (ART)</option>
         <option name="stop-4" value="ARTX-Main">Arts Extension Building (ARTX)</option>
         <option name="stop-5" value="LIBR-Main">Rosenberg Library (LIBR)</option>
-        <option name="stop-6" value="STAM-Main">Rush Stadium</option>
+        <option name="stop-6" value="STAD-Main">Rush Stadium</option>
         <option name="stop-7" value="CLOUD-Main">Cloud Hall</option>
         <option name="stop-8" value="HLTH-Main">Student Health Center</option>
+        <option name="stop-9" value="BATL-Main">Batmale Hall</option>
+        <option name="stop-10" value="WELL-Main">Wellness Center</option>
+        <option name="stop-11" value="EHF-Main">Floristy Center</option>
+        <option name="stop-12" value="CAFE-Main">Cafeteria</option>
         <option value="SCI-150">⭐⭐⭐Science Building Room 150⭐⭐⭐</option>
       </select>
     </div3>
   </p3>
   <div class="enterButtonDiv">
-    <button class = "enter" onclick="useButton()">DIRECTIONS🔍</button>
+    <button class = "enter" onclick="useButton()">DIRECTIONS 🔍</button>
   </div>
 </div>
 
@@ -230,7 +240,7 @@
         }
       }
       */
-      
+    
       x.innerHTML = "Directions:<br>" + determineRoute(startingPoint, destination) + "<br>" + 
       '<img width="500" height="333" overflow="hidden" src=' + image +' />';
     } else {
