@@ -44,7 +44,7 @@
     height: 100px;
     text-align: center;
     color:rgb(65,105,225);
-    font-size: 40px;
+    font-size: 35px;
     font-weight: bold;
     background-color: rgb(254, 247, 163);
     border-color: blue;
@@ -167,7 +167,6 @@
 </p>
 
 <div id="temporaryNext">
-  Change Here
 </div>
 
 <script scr="route.js">
@@ -179,7 +178,8 @@
   devImage.setAttribute('width', '300px');
   devImage.setAttribute('height', '300px');
   const jsonObj = 
-  {
+  
+    {
     "RouteID" : "SCItoMUB",
     "Route" :[
               {
@@ -215,7 +215,8 @@
                   "turnPrevious": "left"
               }
           ]
-  }
+    }
+  
   const jsonObject = jsonObj;
 
   function useButton(){
@@ -226,7 +227,7 @@
     
     if(startingPoint != destination){
       //x.innerHTML = startingPoint + " to " + destination;
-      var string = "Directions: ";
+      var string = "";
       var leftOrRight = "";
       /*
       for(var i = 0; i < jsonObject.Route.length; i++){
@@ -235,16 +236,22 @@
         }
         string += ("<br>Walk " + jsonObject.Route[i].Distance + " ft, then turn " + leftOrRight);
       }
-      if((startingPoint == "SCI-Main" && destination == "MUB-Main")){
+      */
+      if(determineRoute(startingPoint, destination).match(jsonObj.RouteID)){
         //x.innerHTML = "Walk 100 ft towards the north.";
         if(x.innerHTML != null){
+
+          for(var i = 0; i < jsonObject.Route.length; i++){
+            if(jsonObject.Route[i].turnNext != null){
+              leftOrRight = jsonObject.Route[i].turnNext;
+            }
+            string += ("<br>Walk " + jsonObject.Route[i].Distance + " ft, then turn " + leftOrRight);
+          }
           x.innerHTML = string;
         }
       }
-      */
-    
-      x.innerHTML = "Directions:<br>" + determineRoute(startingPoint, destination) + "<br>" + 
-      '<img width="500" height="333" overflow="hidden" src=' + image +' />';
+      x.innerHTML = '<div style="font-weight:bold; font-size: 50px;">Directions:<br></div>' + string + "<br>" + 
+      '<img width="500" height="333" overflow="hidden" style="margin-top:20px;" src=' + image +' />';
     } else {
       x.innerHTML = startingPoint + " is the same as " + destination;
     }
