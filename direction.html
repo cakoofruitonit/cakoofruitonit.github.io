@@ -1,8 +1,11 @@
 <!DOCTYPE html>
+<html>
+<head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE-edge">
   <meta name="viewpoint" content="width=device-width, inital-scale=1.0">
-<html>
+  <script src="route.js"></script>
+</head>
 <body>
 <style>
   .selectText{
@@ -17,14 +20,14 @@
   }
   .pressEnter{
     font-size: 50px;
-    width: 90%;
+    width: auto;
     padding:15px;
     text-align: center;
   }
   .selectTable{
     margin:auto;
     margin-top: 20px;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
     width: 100%;
     height: 600px;
     text-align: center;
@@ -48,22 +51,63 @@
     font-weight: bold;
     background-color: rgb(254, 247, 163);
     border-color: blue;
-    border-style: outset;
-    
+    border-style: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .enter:active{
+    transform: translateY(10px);
   }
   .directions{
     margin: auto;
-    width: 80%;
+    width: 90%;
     padding:10px;
     text-align: center;
     border:black;
     border-style: outset;
-    font-size: 28px;
+    font-weight:bold; 
+    font-size: 95px; 
+    transition: all 0.5s ease;
+  }
+  .path{
+    opacity: 0;
+    font-weight:normal; 
+    font-size: 30px; 
+    transition: all 0.5s ease;
+  }
+  .path.show {
+    opacity: 1;
   }
   .next{
     margin: auto;
-    width: 40%;
+    width: 50%;
     padding:10px;
+    text-align: center;
+    padding-bottom: 100px;
+  }
+  .previous-btn{
+    border-color: black;
+    border-style: none;
+    font-weight: bold;
+    background-color: rgb(254, 247, 163);
+    color:rgb(65,105,225);
+    width:43%;
+    height:100px;
+    margin-right:20px;
+    font-size: 40px;
+    text-align: center;
+  }
+  .next-btn{
+    border-color: black;
+    border-style: none;
+    font-weight: bold;
+    background-color: rgb(254, 247, 163);
+    color:rgb(65,105,225);
+    width: 43%;
+    height:100px;
+    margin-left:40px;
+    font-size: 40px;
     text-align: center;
   }
   .startPointText{
@@ -105,6 +149,55 @@
     border:black;
     border-style: groove;
   }
+  .error{
+    opacity: 0;
+    font-weight:bold; 
+    font-size: 50px; 
+  }
+  .error.show{
+    opacity: 1;
+  }
+  .line1{
+    font-weight:normal; 
+    font-size: 45px; 
+    transition: all 0.2s ease;
+  }
+  .line2{
+    font-weight:normal; 
+    font-size: 45px; 
+    transition: all 0.2s ease;
+  }
+  .line3{
+    font-weight:normal; 
+    font-size: 45px; 
+    transition: all 0.2s ease;
+  }
+  .line4{
+    font-weight:normal; 
+    font-size: 45px; 
+    transition: all 0.2s ease;
+  }
+  .line1.bold{
+    font-weight:bold; 
+    font-size: 60px; 
+    transition: all 0.2s ease;
+  }
+  .line2.bold{
+    font-weight:bold; 
+    font-size: 60px; 
+    transition: all 0.2s ease;
+  }
+  .line3.bold{
+    font-weight:bold; 
+    font-size: 60px; 
+    transition: all 0.2s ease;
+  }
+  .line4.bold{
+    font-weight:bold; 
+    font-size: 60px; 
+    transition: all 0.2s ease;
+  }
+  
 </style>
 <div class="selectText">Select a starting point and destination:</div>
 <div class="selectTable">
@@ -154,34 +247,89 @@
     </div3>
   </p3>
   <div class="enterButtonDiv">
-    <button class = "enter" onclick="useButton()">DIRECTIONS 🔍</button>
+    <button id="enter" class = "enter" onclick="useButton()">DIRECTIONS 🔍</button>
   </div>
 </div>
 
-<p class="directions" id="destination">
-  <p1 id="landmarkImage"></p1>
-</p>
-
-<p style="margin-bottom: 20px;" class = "next">
-  <button onclick="buttonNext(determineRoute(startingPoint, destination))">NEXT</button>
-</p>
-
-<div id="temporaryNext">
+<div class="directions" id="destination">
+  Directions:
+  
+  <div class="path" id="dirText">
+    <span class="error" id="error"></span>
+    <br>
+    <span class="line1" id="textline1"></span>
+    <span class="line2" id="textline2"></span>
+    <span class="line3" id="textline3"></span>
+    <span class="line4" id="textline4"></span>
+    <span class="line5" id="textline5"></span>
+    <div class ="imageDiv" id="imageDiv">
+    </div>
+  </div>
 </div>
 
-<script scr="route.js">
+<p style="margin-bottom: 20px;" class = "next">
+  <button class="previous-btn" onclick="buttonPrevious()">PREV</button>
+  <button class="next-btn" onclick="buttonNext()">NEXT</button>
+</p>
+
+<script>
   var x = document.getElementById("destination");
   var y = document.getElementById("temporaryNext");
-  var image = "RedTree.jpg";
-  var devImage = new Image();
-  devImage.src = "RedTree.jpg";
-  devImage.setAttribute('width', '300px');
-  devImage.setAttribute('height', '300px');
+  var directionsImage = document.getElementById("imageDiv");
+  var directionsError = document.getElementById("error");
+  var directionsTextClass = document.querySelector('.path');
+  var lineText1 = document.querySelector('.line4');
+  var image = "images/RedTree.jpg";
+  var image1 = "images/Synthwave.webp";
+  var image2 = "images/DarkDisco.gif";
+  var image3 = "images/CyberpunkCity.webp";
+  var imageArray = new Array(40);
+  var counter = 0;
+  var max = 4;
+  var notInErrorScreen = true;
   const jsonObj = 
   
+  {"Routes" :
+  [
     {
     "RouteID" : "SCItoMUB",
     "Route" :[
+              {
+                  //"Distance": 215,
+                  //"HeadingToNextVector": "East",
+                  "PathType": "Stairs",
+                  "EndPoint": "Sidewalk",
+                  "ElevationChange": "Down",
+                  "turnNext": "straight",
+                  "isEnd": false,
+                  "destination": null
+              }, 
+              {
+                  //"Distance": 100,
+                  //"HeadingToNextVector": "East",
+                  "PathType": "Xing",
+                  "EndPoint": "Sidewalk",
+                  "ElevationChange": null,
+                  "turnNext": "straight",
+                  "isEnd": false,
+                  "destination": null
+              }, 
+              {
+                  //"Distance": 530,
+                  //"HeadingToNextVector": "South",
+                  "PathType": "Parking",
+                  "EndPoint": "Sidewalk",
+                  "ElevationChange": null,
+                  "turnNext": "left",
+                  "isEnd": true,
+                  "destination": "FIRST DOOR",
+                  "EntranceType": "Entrance"
+              }
+          ]
+    },
+    {
+        "RouteID" : "MUBtoSCI",
+        "Route" :[
               {
                   "Distance": 215,
                   "HeadingToNextVector": "East",
@@ -215,10 +363,11 @@
                   "turnPrevious": "left"
               }
           ]
-    }
-  
+      }
+    ]
+  }
   const jsonObject = jsonObj;
-
+  
   function useButton(){
     selectElement = document.querySelector("#choose-location1");
     selectElement1 = document.querySelector("#choose-location2");
@@ -226,56 +375,73 @@
     destination = selectElement1.options[selectElement1.selectedIndex].value;
     
     if(startingPoint != destination){
-      //x.innerHTML = startingPoint + " to " + destination;
       var string = "";
       var leftOrRight = "";
-      /*
-      for(var i = 0; i < jsonObject.Route.length; i++){
-        if(jsonObject.Route[i].turnNext != null){
-          leftOrRight = jsonObject.Route[i].turnNext;
-        }
-        string += ("<br>Walk " + jsonObject.Route[i].Distance + " ft, then turn " + leftOrRight);
-      }
-      */
-      if(determineRoute(startingPoint, destination).match(jsonObj.RouteID)){
-        //x.innerHTML = "Walk 100 ft towards the north.";
-        if(x.innerHTML != null){
-
-          for(var i = 0; i < jsonObject.Route.length; i++){
-            if(jsonObject.Route[i].turnNext != null){
-              leftOrRight = jsonObject.Route[i].turnNext;
-            }
-            string += ("<br>Walk " + jsonObject.Route[i].Distance + " ft, then turn " + leftOrRight);
+      var elevationChange = null;
+      var routeIndex = -1;
+      if(x.innerHTML != null){
+        for(var j = 0; j < jsonObj.Routes.length; j++){
+          if(determineRoute(startingPoint, destination).match(jsonObj.Routes[j].RouteID)){
+            routeIndex = j;
           }
-          x.innerHTML = string;
+        }
+        const route = jsonObject.Routes[routeIndex].Route;
+        const routeID = jsonObject.Routes[routeIndex].RouteID;
+        for(var i = 0; i < route.length; i++){
+          const string1 = "images/" + routeID + i + ".jpg";
+          try{ 
+            imageArray[i] = string1;
+          } 
+          catch(error){
+            imageArray[i] = image1;
+            console.log(error);
+          }
+          var textline = document.getElementById("textline" + (i+1));
+          //if(route[i].PathType.match(""))
+          switch(route[i].PathType){
+            case "Stairs":
+              if(route[i].EndPoint.match("Sidewalk")){
+                textline.innerHTML = "Walk " + route[i].ElevationChange.toLowerCase() + " to sidewalk<br>";
+              }
+              break;
+            case "Xing":
+              textline.innerHTML = "Cross the crosswalk to the other side of sidewalk<br>";
+              break;
+            case "Parking":
+              if(route[i].EndPoint.match("Sidewalk")){
+                textline.innerHTML = "Walk past parking lot to building (MUB) on the left<br>";
+              }
+              break;
+          }
+
+          if(route[i].isEnd == true){
+            textline.innerHTML += "<br>" + route[i].EntranceType + " is the " + route[i].destination + " at the arrow";
+          }
         }
       }
-      x.innerHTML = '<div style="font-weight:bold; font-size: 50px;">Directions:<br></div>' + string + "<br>" + 
-      '<img width="500" height="333" overflow="hidden" style="margin-top:20px;" src=' + image +' />';
+    
+      max = jsonObject.Routes[0].Route.length;
+      document.getElementById("error").innerHTML = null;
+      directionsImage.innerHTML = "<br>" + '<img width="800" height="533" overflow="hidden" src=' + imageArray[0] +' />';
+      directionsTextClass.classList.add('show');
+      directionsError.classList.remove('show');
+      counter = 1;
+      for(var i = 1; i <= max; i++){
+        document.querySelector(".line" + i).classList.remove('bold');
+      }
+      document.querySelector(".line" + 1).classList.add('bold');
+      notInErrorScreen = true;
     } else {
-      x.innerHTML = startingPoint + " is the same as " + destination;
+      directionsError.innerHTML = '<span style="color:rgb(255,99,71); font-size:70px;">Error:</span><br>The starting point and destination are the same';
+      directionsError.classList.add('show');
+      directionsTextClass.classList.add('show');
+      for(var i = 1; i <= max; i++){
+        document.getElementById("textline" + (i)).innerHTML = null;
+      }
+      counter = 0;
+      notInErrorScreen = false;
+      max = 0;
     }
-  }
-
-  function getLocation() {
-    if (navigator.geolocation) {
-      
-      navigator.geolocation.getCurrentPosition(showPosition);
-      //navigator.geolocation.watchPosition()
-    } else { 
-      x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-  }
-
-  function showPosition(position) {
-    x.innerHTML = "Latitude: " + position.coords.latitude + 
-    "<br>Longitude: " + position.coords.longitude +
-    "<br>Altitude: " + position.coords.altitude + 
-    "<br>Heading: " + position.coords.heading + 
-    "<br>Speed: " + position.coords.speed +
-    "<br>Accuracy: " + position.coords.accuracy;
-    37.728519458275606, -122.45603225532527
-    37.72281688825156, -122.44124791904007
   }
 
   function determineRoute(startingPoint, destination){
@@ -284,8 +450,22 @@
     return s1[0] + "to" + s2[0];
   }
 
-  function buttonNext(routeID){
-    y.innerHTML = routeID;
+  function buttonNext(){
+    if(counter != max && notInErrorScreen){
+      counter = counter + 1;
+      document.querySelector(".line" + (counter - 1)).classList.remove('bold');
+      document.querySelector(".line" + counter).classList.add('bold');
+      directionsImage.innerHTML = "<br>" + '<img width="600" height="400" overflow="hidden" src=' + imageArray[counter-1] +' />';
+    }
+  }
+
+  function buttonPrevious(){
+    if(counter != 1 && notInErrorScreen){
+      counter = counter - 1;
+      document.querySelector(".line" + (counter + 1)).classList.remove('bold');
+      document.querySelector(".line" + counter).classList.add('bold');
+      directionsImage.innerHTML = "<br>" + '<img width="600" height="400" overflow="hidden" src=' + imageArray[counter-1] +' />';
+    }
   }
   
 </script>
