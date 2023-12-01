@@ -1,0 +1,66 @@
+{"Routes" :
+  [
+    {
+    "RouteID" : "SCItoMUB",
+    "Route" :[
+              {
+                  "PathType": "Stairs",
+                  "EndPoint": "Sidewalk",
+                  "ElevationChange": "Down",
+                  "turnNext": "straight",
+                  "isEnd": false,
+                  "destination": null
+              }, 
+              {
+                  "PathType": "Xing",
+                  "EndPoint": "Sidewalk",
+                  "ElevationChange": null,
+                  "turnNext": "straight",
+                  "isEnd": false,
+                  "destination": null
+              }, 
+              {
+                  "PathType": "Parking",
+                  "EndPoint": "Sidewalk",
+                  "ElevationChange": null,
+                  "turnNext": "left",
+                  "isEnd": true,
+                  "destination": "FIRST DOOR",
+                  "EntranceType": "Entrance"
+              }
+          ]
+      },
+      {
+        "RouteID" : "SCItoBATL",
+        "Route":[
+              {
+                  "PathType": "Stairs",
+                  "EndPoint": "Sidewalk",
+                  "ElevationChange": "Down",
+                  "turnNext": "straight",
+                  "isEnd": false,
+                  "destination": null
+              }, 
+              {
+                  "PathType": "Xing",
+                  "EndPoint": "Sidewalk",
+                  "ElevationChange": null,
+                  "turnNext": "straight",
+                  "isEnd": false,
+                  "destination": null
+              }, 
+              {
+                  "PathType": "Parking",
+                  "EndPoint": "Sidewalk",
+                  "ElevationChange": null,
+                  "turnNext": "left",
+                  "isEnd": true,
+                  "destination": "FIRST DOOR",
+                  "EntranceType": "Entrance"
+              }
+
+        ]
+      }
+
+    ]
+  }
