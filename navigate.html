@@ -57,6 +57,10 @@
 
   .enter:active{
     transform: translateY(10px);
+    border: black;
+    border-style: outset;
+    background-color: rgb(65,105,225);
+    color:rgb(254, 247, 163);
   }
   .directions{
     margin: auto;
@@ -96,6 +100,7 @@
     margin-right:20px;
     font-size: 40px;
     text-align: center;
+    transition: all 0.25s ease;
   }
   .next-btn{
     border-color: black;
@@ -108,6 +113,19 @@
     margin-left:40px;
     font-size: 40px;
     text-align: center;
+    transition: all 0.25s ease;
+  }
+  .next-btn:active{
+    transform: translateY(10px);
+    border-style: outset;
+    background-color: rgb(65,105,225);
+    color:rgb(254, 247, 163);
+  }
+  .previous-btn:active{
+    transform: translateY(10px);
+    border-style: outset;
+    background-color: rgb(65,105,225);
+    color:rgb(254, 247, 163);
   }
   .startPointText{
     margin: auto;
@@ -332,6 +350,9 @@
   var inStartingScreen = true;
   
   function useDirectionButton(){
+    for(var i = 1; i <= max; i++){
+      document.getElementById("textline" + (i)).innerHTML = null;
+    }
     dir.innerHTML = "Starting Point: ";
     const startingPoint = selectElement.options[selectElement.selectedIndex].value;
     const destination = selectElement1.options[selectElement1.selectedIndex].value;
@@ -366,47 +387,51 @@
       var leftOrRight = "";
       var elevationChange = null;
       var routeIndex = -1;
-      
-      for(var j = 0; j < jsonObj.Routes.length; j++){
-        if(determineRoute(startingPoint, destination).match(jsonObj.Routes[j].RouteID)){
-          routeIndex = j;
+      var jsonFileData = null;
+      fetch("routes.json")
+      .then(response => response.json())
+      .then(data => {
+        for(var j = 0; j < data.Routes.length; j++){
+          if(determineRoute(startingPoint, destination).match(data.Routes[j].RouteID)){
+            routeIndex = j;
+          }
         }
-      }
-      const route = jsonObject.Routes[routeIndex].Route;
-      const routeID = jsonObject.Routes[routeIndex].RouteID;
-      for(var i = 0; i < route.length; i++){
-        const string1 = "images/" + routeID + i + ".jpg";
-        try{ 
-          imageArray[i] = string1;
-        } 
-        catch(error){
-          imageArray[i] = image1;
-          console.log(error);
-        }
-        var textline = document.getElementById("textline" + (i+1));
-        switch(route[i].PathType){
-          case "Stairs":
-            if(route[i].EndPoint.match("Sidewalk")){
-              textline.innerHTML = "Walk " + route[i].ElevationChange.toLowerCase() + " to sidewalk<br>";
-            }
-            break;
-          case "Xing":
-            textline.innerHTML = "Cross the crosswalk to the other side of sidewalk<br>";
-            break;
-          case "Parking":
-            if(route[i].EndPoint.match("Sidewalk")){
-              textline.innerHTML = "Walk past parking lot to building (MUB) on the left<br>";
-            }
-            break;
-        }
+        const route = data.Routes[routeIndex].Route;
+        const routeID = data.Routes[routeIndex].RouteID;
+        for(var i = 0; i < route.length; i++){
+          const string1 = "images/" + routeID + i + ".jpg";
+          try{ 
+            imageArray[i] = string1;
+          } 
+          catch(error){
+            imageArray[i] = image1;
+            console.log(error);
+          }
+          var textline = document.getElementById("textline" + (i+1));
+          switch(route[i].PathType){
+            case "Stairs":
+              if(route[i].EndPoint.match("Sidewalk")){
+                textline.innerHTML = "Walk " + route[i].ElevationChange.toLowerCase() + " to sidewalk<br>";
+              }
+              break;
+            case "Xing":
+              textline.innerHTML = "Cross the crosswalk to the other side of sidewalk<br>";
+              break;
+            case "Parking":
+              if(route[i].EndPoint.match("Sidewalk")){
+                textline.innerHTML = "Walk past parking lot to building (MUB) on the left<br>";
+              }
+              break;
+          }
 
-        if(route[i].isEnd == true){
-          textline.innerHTML += "<br>" + route[i].EntranceType + " is the " + route[i].destination + " at the arrow";
+          if(route[i].isEnd == true){
+            textline.innerHTML += "<br>" + route[i].EntranceType + " is the " + route[i].destination + " at the arrow";
+          }
         }
-      }
-      max = jsonObject.Routes[0].Route.length;
+        directionsImage.innerHTML = "<br>" + '<img width="800" height="533" overflow="hidden" src=' + imageArray[0] +' />';
+        max = route.length;
+      });
       document.getElementById("error").innerHTML = null;
-      directionsImage.innerHTML = "<br>" + '<img width="800" height="533" overflow="hidden" src=' + imageArray[0] +' />';
       directionsTextClass.classList.add('show');
       directionsError.classList.remove('show');
       counter = 1;
