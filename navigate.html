@@ -148,7 +148,6 @@
     font-weight:bold;
   }
   .chooseLocation1{
-    
     width:90%;
     margin-bottom: 10px; 
     font-size: 60px; 
@@ -157,10 +156,9 @@
     border-style: groove;
   }
   .chooseLocation2{
-    
     width:90%;
     margin-top: 7px;
-    margin-bottom: 50px; 
+    margin-bottom: 30px; 
     font-size: 60px; 
     text-align: center;
     border:black;
@@ -173,6 +171,51 @@
   }
   .error.show{
     opacity: 1;
+  }
+  .handicap-btn{
+    margin-right: 20px;
+    margin-bottom: 8px;
+    width: 120px;
+    height: 120px;
+    text-align: center;
+    cursor: pointer;
+    border-style: none;
+    transition: all 0.25s ease;
+  }
+  .walking-btn{
+    margin-right: 20px;
+    margin-bottom: 8px;
+    width: 120px;
+    height: 120px;
+    text-align: center;
+    cursor: pointer;
+    border-style: none;
+    transition: all 0.25s ease;
+  }
+  .handicap-btn.show{
+    margin-right: 20px;
+    margin-bottom: 8px;
+    width: 120px;
+    height: 120px;
+    background-color:rgb(211, 221, 251);
+    text-align: center;
+    cursor: pointer;
+    border-style: none;
+    transition: all 0.25s ease;
+  }
+  .walking-btn.show{
+    margin-right: 20px;
+    margin-bottom: 8px;
+    width: 120px;
+    height: 120px;
+    background-color:rgb(211, 221, 251);
+    text-align: center;
+    cursor: pointer;
+    border-style: none;
+    transition: all 0.25s ease;
+  }
+  .walking-btn:active{
+    border-style: outset;
   }
   .line1{
     font-weight:normal; 
@@ -189,7 +232,7 @@
     font-size: 45px; 
     transition: all 0.2s ease;
   }
-  .line4{
+  .line4, .line5, .line6, .line7{
     font-weight:normal; 
     font-size: 45px; 
     transition: all 0.2s ease;
@@ -209,7 +252,7 @@
     font-size: 60px; 
     transition: all 0.2s ease;
   }
-  .line4.bold{
+  .line4.bold, .line5.bold, .line6.bold, .line7.bold{
     font-weight:bold; 
     font-size: 60px; 
     transition: all 0.2s ease;
@@ -263,6 +306,14 @@
         <option value="SCI-150">⭐⭐⭐Science Building Room 150⭐⭐⭐</option>
       </select>
     </div3>
+    <div>
+      <button id="handicap-btn" class = "handicap-btn" onclick="optionADA()">
+        <img width="100" height="100" overflow="hidden" src="images/handicap.webp"/>
+      </button>
+      <button id="walking-btn" class = "walking-btn" onclick="optionWalkable()">
+        <img width="100" height="100" overflow="hidden" src="images/walking.webp"/>
+      </button>
+    </div>
   </p3>
   <div class="enterButtonDiv">
     <button id="enter" class = "enter" onclick="useDirectionButton()">DIRECTIONS 🔍</button>
@@ -280,6 +331,8 @@
     <span class="line3" id="textline3"></span>
     <span class="line4" id="textline4"></span>
     <span class="line5" id="textline5"></span>
+    <span class="line6" id="textline6"></span>
+    <span class="line7" id="textline7"></span>
     <div class ="imageDiv" id="imageDiv">
     </div>
   </div>
@@ -309,45 +362,24 @@
   var notInErrorScreen = true;
   var selectElement = document.querySelector("#choose-location1");
   var selectElement1 = document.querySelector("#choose-location2");
-  const jsonObj = 
-  
-  {"Routes" :
-  [
-    {
-    "RouteID" : "SCItoMUB",
-    "Route" :[
-              {
-                  "PathType": "Stairs",
-                  "EndPoint": "Sidewalk",
-                  "ElevationChange": "Down",
-                  "turnNext": "straight",
-                  "isEnd": false,
-                  "destination": null
-              }, 
-              {
-                  "PathType": "Xing",
-                  "EndPoint": "Sidewalk",
-                  "ElevationChange": null,
-                  "turnNext": "straight",
-                  "isEnd": false,
-                  "destination": null
-              }, 
-              {
-                  "PathType": "Parking",
-                  "EndPoint": "Sidewalk",
-                  "ElevationChange": null,
-                  "turnNext": "left",
-                  "isEnd": true,
-                  "destination": "FIRST DOOR",
-                  "EntranceType": "Entrance"
-              }
-          ]
-      }
-    ]
-  }
-  
-  const jsonObject = jsonObj;
   var inStartingScreen = true;
+  var selectedADA = false;
+  var selectedWalkable = true;
+  optionWalkable();
+
+  function optionADA(){
+    selectedADA = true;
+    selectedWalkable = false;
+    document.querySelector('.walking-btn').classList.remove('show');
+    document.querySelector('.handicap-btn').classList.add('show');
+  }
+
+  function optionWalkable(){
+    selectedADA = false;
+    selectedWalkable = true;
+    document.querySelector('.handicap-btn').classList.remove('show');
+    document.querySelector('.walking-btn').classList.add('show');
+  }
   
   function useDirectionButton(){
     for(var i = 1; i <= max; i++){
@@ -420,6 +452,23 @@
             case "Parking":
               if(route[i].EndPoint.match("Sidewalk")){
                 textline.innerHTML = "Walk past parking lot to building (MUB) on the left<br>";
+              }
+              break;
+            case "Flat_Plain":
+              if(route[i].EndPoint.match("Stairs")){
+                textline.innerHTML = "Walk toward stairs on the left<br>";
+              } else if(route[i].EndPoint.match("Flat_Plain")){
+                textline.innerHTML = "Walk across the flat surface<br>";
+              }
+              break;
+            case "Ramp":
+              if(route[i].EndPoint.match("Sidewalk")){
+                textline.innerHTML = "Walk " + route[i].ElevationChange.toLowerCase() + " ramp to the sidewalk<br>";
+              }
+              break;
+            case "Sidewalk":
+              if(route[i].EndPoint.match("Sidewalk")){
+                textline.innerHTML = "Walk on the sidewalk<br>";
               }
               break;
           }
