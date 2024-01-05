@@ -649,9 +649,15 @@
         *  width: auto\9; /* ie8 *\
         */
         fullscreenUIHandler(true, 0, true, false);
-        element1.requestFullscreen().catch(e => {
-          console.log(e);
-        })
+        if(element1.requestFullscreen){
+          element1.requestFullscreen().catch(e => {
+            console.log(e);
+          });
+        } else if(element1.webkitRequestFullscreen){
+          element1.webkitRequestFullscreen().catch(e => {
+            console.log(e);
+          });
+        }
       }
     });
   }
