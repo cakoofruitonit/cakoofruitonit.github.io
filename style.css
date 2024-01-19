@@ -320,7 +320,7 @@ html {margin: 0; padding: 0}
 }
 .change-image-div{
   text-align: right;
-  width:99.25%;
+  width:99.4%;
   height:70px;
   border: outset;
   background-color: rgb(210, 213, 221);
@@ -336,4 +336,9 @@ html {margin: 0; padding: 0}
 .imageDiv{
   display:flex;
   width:99.9%;
+}
+.google-maps-iframe{
+  display:flex;
+  margin-left: auto;
+  margin-right: auto;
 }
