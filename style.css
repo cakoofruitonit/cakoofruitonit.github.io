@@ -1,3 +1,4 @@
+html {margin: 0; padding: 0}
 .selectText{
   margin-top: 20px;
   width: 100%;
@@ -53,12 +54,10 @@
   color:rgb(254, 247, 163);
 }
 .directions{
-  margin-top:0px;
+  background-color: aliceblue;
   width: 100%;
   padding-top:60px;
   text-align: center;
-  border:black;
-  border-style: outset;
   font-weight:bold; 
   font-size: 95px; 
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -321,7 +320,7 @@
 }
 .change-image-div{
   text-align: right;
-  width:99.5%;
+  width:99.25%;
   height:70px;
   border: outset;
   background-color: rgb(210, 213, 221);
@@ -333,4 +332,8 @@
   width:12%;
   height:65px;
   background-color: transparent;
+}
+.imageDiv{
+  display:flex;
+  width:99.9%;
 }
