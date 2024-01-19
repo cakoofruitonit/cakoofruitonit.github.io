@@ -72,7 +72,7 @@ function useDirectionButton(){
             }
         }
         if(routeURL != null){
-            directionsImage.innerHTML = '<iframe id="google-maps-iframe" width="' + width + '%" height="' + height + 'px" src=' + routeURL +'></iframe>';
+            directionsImage.innerHTML = '<iframe id="google-maps-iframe" class="google-maps-iframe" width="' + width + '%" height="' + height + 'px" src=' + routeURL +'></iframe>';
         } else {
             directionsImage.innerHTML = '<span style="font-size:60px">TO BE ADDED...</span>';
             directionsImage.innerHTML += "<br>" + '<img width="800" height="533" overflow="hidden" src="images/CyberpunkCity.gif" />';
