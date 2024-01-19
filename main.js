@@ -60,7 +60,6 @@ function useDirectionButton(){
         .then(response => response.json())
         .then(data => {
         for(var j = 0; j < data.length; j++){
-            console.log(determineRoute(startingPoint, destination) + " " + data[j].routeID);
             if(determineRoute(startingPoint, destination) === (data[j].routeID)){
                 if(selectedADA){
                     routeURL = data[j].urlADA;
@@ -152,7 +151,6 @@ function useNextButton(startingPoint, destination){
                     imageArray[i] = "images/" + "CyberpunkCity.gif";
                 }
             }
-            console.log(i + ") ran");
             if(route[i].isEnd == true){
             textline.innerHTML += "<br>" + route[i].EntranceType;
             }
@@ -242,12 +240,10 @@ function openFullScreenHandler(eventID, id){
             if(!/iPhone|iPad|iPod/i.test(navigator.userAgent)){
                 fullscreenUIHandler(true, 0, true, false);
                 if(element1.requestFullscreen){
-                    console.log("Ran Default");
                     element1.requestFullscreen().catch(e => {
                         console.log(e);
                     });
                 } else if(element1.webkitRequestFullscreen){
-                    console.log("Ran Webkit");
                     element1.webkitRequestFullscreen().catch(e => {
                         console.log(e);
                     });
