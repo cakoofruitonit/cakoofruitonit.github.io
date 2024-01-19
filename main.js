@@ -56,7 +56,7 @@ function useDirectionButton(){
     var source = "images/StartingPoint" + determineRoute(startingPoint, destination) + ".jpg";
     //directionsImage.innerHTML = "<br>" + '<img width="800" height="533" overflow="hidden" src=' + source +' />';
     let start = startingPoint.split("-");
-    fetch("resources/google_map_routes/" + start[0].toLowerCase() + ".json")
+    fetch("resources/google_maps_routes/" + start[0].toLowerCase() + ".json")
         .then(response => response.json())
         .then(data => {
         for(var j = 0; j < data.length; j++){
