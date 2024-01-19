@@ -55,12 +55,13 @@ function useDirectionButton(){
     */
     var source = "images/StartingPoint" + determineRoute(startingPoint, destination) + ".jpg";
     //directionsImage.innerHTML = "<br>" + '<img width="800" height="533" overflow="hidden" src=' + source +' />';
-    fetch("resources/google_maps_routes.json")
+    let start = startingPoint.split("-");
+    fetch("resources/google_map_routes/" + start[0].toLowerCase() + ".json")
         .then(response => response.json())
         .then(data => {
         for(var j = 0; j < data.length; j++){
             console.log(determineRoute(startingPoint, destination) + " " + data[j].routeID);
-            if(determineRoute(startingPoint, destination).match(data[j].routeID)){
+            if(determineRoute(startingPoint, destination) === (data[j].routeID)){
                 if(selectedADA){
                     routeURL = data[j].urlADA;
                 } else {
@@ -72,9 +73,9 @@ function useDirectionButton(){
             }
         }
         if(routeURL != null){
-            directionsImage.innerHTML = '<iframe width="' + width + '%" height="' + height + 'px" src=' + routeURL +'></iframe>';
+            directionsImage.innerHTML = '<iframe id="google-maps-iframe" width="' + width + '%" height="' + height + 'px" src=' + routeURL +'></iframe>';
         } else {
-            directionsImage.innerHTML = '<br><span style="font-size:60px">To be added...</span>';
+            directionsImage.innerHTML = '<span style="font-size:60px">TO BE ADDED...</span>';
             directionsImage.innerHTML += "<br>" + '<img width="800" height="533" overflow="hidden" src="images/CyberpunkCity.gif" />';
         }
     });
@@ -350,9 +351,11 @@ function changeImageSize(){
         changeButtonBtn.innerHTML = '<img height="65px" width="65px" src="images/shrink.png">';
     }
     if(inStartingScreen){
-        directionsImage.innerHTML = '<iframe width="' + width + '%" height="' + height + 'px" src=' + routeURL +'></iframe>';
+        //directionsImage.innerHTML = '<iframe width="' + width + '%" height="' + height + 'px" src=' + routeURL +'></iframe>';
+        document.getElementById("google-maps-iframe").setAttribute("width", width + "%");
+        document.getElementById("google-maps-iframe").setAttribute("height", height + "px");
     } else if(notInErrorScreen){
-        directionsImage.innerHTML = "<br>" + '<img width="' + width + '%" height="' + height + 'px" overflow="hidden" src=' + imageArray[counter-1] +' />';
+        directionsImage.innerHTML = "<br>" + '<img width="' + width + '%" height="' + height + 'px" overflow="hidden" src="images/CyberpunkCity.gif" />';
     }
     
 }
