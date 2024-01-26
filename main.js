@@ -106,7 +106,7 @@ function useNextButton(startingPoint, destination){
     if(startingPoint != destination){
         dir.innerHTML = "Directions: ";
         var routeIndex = -1;
-        fetch("resources/routes.json")
+        fetch("resources/direction_routes/sci.json")
         .then(response => response.json())
         .then(data => {
         for(var j = 0; j < data.Routes.length; j++){
