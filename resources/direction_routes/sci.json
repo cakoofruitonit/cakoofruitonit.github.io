@@ -1,0 +1,82 @@
+{
+    "Routes" :
+    [
+        {
+            "RouteID" : "SCItoBATL",
+            "Route": [
+                {
+                    "ForAll": "Walk to Stairs/Ramp",
+                    "ImageForAll": "sciexit3.png"
+                }, 
+                {
+                    "ADA": "Take ramp to bottom",
+                    "ImageADA": "sciramp0.png",
+                    "AbleBodied": "Walk down to the bottom of the stairs"
+                }, 
+                {
+                    "ForAll":"Cross the street",
+                    "ImageForAll": "cloudcir0.png"
+                },
+                {
+                    "ForAll":"Walk along the path",
+                    "ImageForAll": "cloudcir1.png"
+                }, 
+                {
+                    "ForAll":"Cross the street to this path",
+                    "ImageForAll": "cloudcir2.png"
+                },
+                {
+                    "ForAll":"Walk down this path to the Entrance",
+                    "ImageForAll": "btmlentrance0.png"
+                }
+
+            ]
+        },
+        {
+            "RouteID" : "SCItoJDVL",
+            "Route":
+            [
+                {
+                    "ForAll": "Walk to Stairs/Ramp",
+                    "ImageForAll": "sciexit3.png"
+                }, 
+                {
+                    "ADA": "Take ramp to bottom",
+                    "ImageADA": "sciramp0.png",
+                    "AbleBodied": "Walk down to the bottom of the stairs"
+                }, 
+                {
+                    "ForAll":"Cross the street",
+                    "ImageForAll": "cloudcir0.png"
+                },
+                {
+                    "ForAll":"Walk straight to the arrow",
+                    "ImageForAll": "creativeunder0.png"
+                }, 
+                {
+                    "ForAll":"Follow the path to arrow",
+                    "ImageForAll": "creativepath0.png"
+                }
+            ]
+        },
+        {
+            "RouteID" : "SCItoMUB",
+            "Route" : [
+                {
+                    "AbleBodied": "Walk down to sidewalk",
+                    "ImageAbleBodied": "sciexit0.jpg"
+                }, 
+                {
+                    "AbleBodied": "Cross the crosswalk to the other side of sidewalk",
+                    "ImageAbleBodied": "sciexit1.jpg"
+                }, 
+                {
+                    "AbleBodied": "Walk past parking lot to MUB building on the left",
+                    "ImageAbleBodied": "sciexit2.jpg",
+                    "isEnd": true,
+                    "EntranceType": "Entrance is the FIRST DOOR at the arrow"
+                }
+            ]
+        }
+    ]
+}
