@@ -53,13 +53,13 @@ function useDirectionButton(){
     /*
     * Starting image initialized here
     */
-    var source = "images/StartingPoint" + determineRoute(startingPoint, destination) + ".jpg";
     //directionsImage.innerHTML = "<br>" + '<img width="800" height="533" overflow="hidden" src=' + source +' />';
     let start = startingPoint.split("-");
-    fetch("resources/google_maps_routes/" + start[0].toLowerCase() + ".json")
+    fetch("resources/google_map_routes/" + start[0].toLowerCase() + ".json")
         .then(response => response.json())
         .then(data => {
         for(var j = 0; j < data.length; j++){
+            console.log(determineRoute(startingPoint, destination) + " " + data[j].routeID);
             if(determineRoute(startingPoint, destination) === (data[j].routeID)){
                 if(selectedADA){
                     routeURL = data[j].urlADA;
@@ -106,59 +106,33 @@ function useNextButton(startingPoint, destination){
     if(startingPoint != destination){
         dir.innerHTML = "Directions: ";
         var routeIndex = -1;
-        fetch("resources/direction_routes/sci.json")
+        fetch("resources/direction_routes/" + startingPoint.split("-")[0].toLowerCase() + ".json")
         .then(response => response.json())
         .then(data => {
         for(var j = 0; j < data.Routes.length; j++){
-            if(determineRoute(startingPoint, destination).match(data.Routes[j].RouteID)){
+            if(determineRoute(startingPoint, destination) === (data.Routes[j].RouteID)){
                 routeIndex = j;
             }
         }
-        const route = data.Routes[routeIndex].Route;
-        const routeID = data.Routes[routeIndex].RouteID;
         
-        /*
-        * Image only displays if directions exists in the json file
-        */
-
-        for(var i = 0; i < route.length; i++){
-            var textline = document.getElementById("textline" + (i+1));
-            
-            /*
-            * Checks whether the client selected ADA or AbleBodied
-            * If the path is fine for ADA and is the shortest path
-            * That is what the "FOR ALL" key is
-            */
-
-            if(route[i].ForAll != null){
-            textline.innerHTML = route[i].ForAll + "<br>";
-            if(route[i].ImageForAll != null){
-                imageArray[i] = "images/" + route[i].ImageForAll;
-            }
-            } else {
-                if(selectedADA && route[i].ADA != null){
-                    textline.innerHTML = route[i].ADA + "<br>";
-                    if(route[i].ImageADA != null){
-                    imageArray[i] = "images/" + route[i].ImageADA;
-                    }
-                } else if(selectedWalkable && route[i].AbleBodied != null){
-                    textline.innerHTML = route[i].AbleBodied + "<br>";
-                    if(route[i].ImageAbleBodied != null){
-                    imageArray[i] = "images/" + route[i].ImageAbleBodied;
-                    } 
+        const route = selectedADA ? data.Routes[routeIndex].RouteADA : data.Routes[routeIndex].RouteWalking;
+        if(route != null){
+            for(var i = 0; i < route.length; i++){
+                var textline = document.getElementById("textline" + (i + 1));
+                var step = route[i];
+                if(route[i].directions != null){
+                    textline.innerHTML = step.directions + "";
+                } 
+                textline.innerHTML += "<br>";
+                if(step.image != null){
+                    imageArray[i] = "images/" + step.image;
                 } else {
-                    textline.innerHTML = null;
-                    imageArray[i] = "images/" + "CyberpunkCity.gif";
+                    imageArray[i] = null;
                 }
             }
-            if(route[i].isEnd == true){
-            textline.innerHTML += "<br>" + route[i].EntranceType;
-            }
+        } else {
+            document.getElementById("textline" + (1)).innerHTML = 'DIRECTIONS TO BE ADDED.';
         }
-
-        /*
-        * Initializes the first image of the array
-        */
 
         directionsImage.innerHTML = "<br>" + '<img width="' + width + '%" height="' + height + 'px" overflow="hidden" src=' + imageArray[0] +' />';
         max = route.length;
@@ -240,10 +214,12 @@ function openFullScreenHandler(eventID, id){
             if(!/iPhone|iPad|iPod/i.test(navigator.userAgent)){
                 fullscreenUIHandler(true, 0, true, false);
                 if(element1.requestFullscreen){
+                    console.log("Ran Default");
                     element1.requestFullscreen().catch(e => {
                         console.log(e);
                     });
                 } else if(element1.webkitRequestFullscreen){
+                    console.log("Ran Webkit");
                     element1.webkitRequestFullscreen().catch(e => {
                         console.log(e);
                     });
